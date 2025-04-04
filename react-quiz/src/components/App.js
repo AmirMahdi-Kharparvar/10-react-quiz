@@ -226,24 +226,28 @@ export default function App() {
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce((prev, cur) => prev + cur.points, 0);
 
-  useEffect(function () {
-    async function fetchData() {
-      try {
-        const res = await fetch("http://localhost:8000/questions");
-        const data = await res.json();
-        dispatch({ type: "dataReceived", payload: data });
-      } catch (err) {
-        dispatch({ type: "dataFailed" });
+  useEffect(
+    function () {
+      async function fetchData() {
+        try {
+          // const res = await fetch("http://localhost:8000/questions");
+          // const data = await res.json();
+          const data = questions;
+          dispatch({ type: "dataReceived", payload: data });
+        } catch (err) {
+          dispatch({ type: "dataFailed" });
+        }
       }
-    }
 
-    fetchData();
+      fetchData();
 
-    // fetch("http://localhost:8000/questions")
-    //   .then((res) => res.json())
-    //   .then((data) => dispatch({ type: "dataReceived", payload: data }))
-    //   .catch((err) => dispatch({ type: "dataFailed" }));
-  }, []);
+      // fetch("http://localhost:8000/questions")
+      //   .then((res) => res.json())
+      //   .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      //   .catch((err) => dispatch({ type: "dataFailed" }));
+    },
+    [questions]
+  );
 
   return (
     <div className="app">
